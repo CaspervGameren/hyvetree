@@ -1,42 +1,21 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
-Route::get('/about-us', function () {
-    $company = 'Hogeschool Rotterdam';
-    // return view('about', compact('text')
-    // );
-    return view('about', compact('company'));
-})->name('about');
+Route::get('/about-us', [AboutController::class, 'index'])->name('about');
 
-Route::get('projects/{name}', function (string $name) {
-    $projects = [
-        'hyvetree' => [
-            'id' => 1,
-            'name' => 'Hyvetree',
-        ],
-        'sportcentrumspijkenisse' => [
-            'id' => 1,
-            'name' => 'Unfinished',
-        ]
-    ];
-
-    $project = $projects['name'];
-
-    return view('projects.' . $name, [
-        'project' => $project
-    ]);
-    
-});
+Route::resource('/projects', ProjectController::class);
 
 // Laravel Breeze, no touchy
 Route::get('/dashboard', function () {

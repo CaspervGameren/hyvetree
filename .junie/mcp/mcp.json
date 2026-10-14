@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "/Users/casper/Library/Application Support/Herd/bin/php84",
+            "args": [
+                "/Users/casper/Documents/Development/Personal/hyvetree/artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}
