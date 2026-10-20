@@ -1,3 +1,5 @@
 <x-layouts.app title="home">
-    <h1>Hello, World!</h1>
+    <header>
+        
+    </header>
 </x-layouts.app>
