@@ -8,16 +8,16 @@
         <ul class="flex gap-8">
             <li
                 class="rounded-2xl border border-white/15 bg-linear-to-b from-white/15 to-white/3 px-6 py-2.5 text-white/80 backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_4px_12px_rgba(0,0,0,0.2)]">
-                Dashboard
+                <a href="{{ route('home') }}">Dashboard</a>
             </li>
             <li
                 class="rounded-2xl border border-white/15 bg-linear-to-b from-white/15 to-white/3 px-6 py-2.5 text-white/80 backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_4px_12px_rgba(0,0,0,0.2)]">
-                Projects
+                <a href="{{ route('projects.index') }}">Projects</a>
             </li>
-            <li
+            {{-- <li
                 class="rounded-2xl border border-white/15 bg-linear-to-b from-white/15 to-white/3 px-6 py-2.5 text-white/80 backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_4px_12px_rgba(0,0,0,0.2)]">
                 Requests
-            </li>
+            </li> --}}
         </ul>
     </div>
     <div class="bg-neutral-800 rounded-full px-3 py-2 hover:bg-neutral-600">

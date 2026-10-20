@@ -18,7 +18,6 @@
 <body class="flex flex-col min-h-screen bg-neutral-950 text-white p-4">
     @include('partials.navigation')
     
-
     <div class="flex flex-1 items-stretch gap-4">
         @include('partials.sidebar')
 
