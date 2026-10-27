@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
@@ -28,7 +30,41 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'title' => ['required', 'string', 'max:255'],
+            'summary' => ['required', 'string', 'max:500'],
+            'description' => ['nullable', 'string'],
+            'icon' => [
+                'nullable',
+                'string',
+                Rule::in([
+                    'folder',
+                    'code',
+                    'palette',
+                    'school',
+                    'lightbulb',
+                    'rocket_launch',
+                    'eco',
+                ]),
+            ],
+            'status' => [
+                'required',
+                Rule::in(['planned', 'in_progress', 'on_hold', 'completed']),
+            ],
+            'is_public' => ['required', 'boolean'],
+            'started_at' => ['nullable', 'date_format:Y-m-d'],
+            'target_end_date' => ['nullable', 'date_format:Y-m-d'],
+        ];
+
+        if ($request->filled('started_at')) {
+            $rules['target_end_date'] = 'after_or_equal:started_at';
+        }
+
+        $validated = $request->validate($rules);
+
+        $project = $request->user()->projects()->create($validated);
+
+        return redirect()->route('projects.show', ['id' => $project->id]);
     }
 
     /**

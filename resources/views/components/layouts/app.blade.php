@@ -1,5 +1,6 @@
 @props([
     'title' => 'Page',
+    'showSidebar' => true,
 ])
 
 <!DOCTYPE html>
@@ -19,7 +20,9 @@
     @include('partials.navigation')
     
     <div class="flex flex-1 items-stretch gap-4">
-        @include('partials.sidebar')
+        @if ($showSidebar)
+            @include('partials.sidebar')
+        @endif
 
         <main class="min-w-0 flex-1">
             {{ $slot }}
