@@ -7,3 +7,26 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+@custom-variant light (&:where(html[data-theme="light"], html[data-theme="light"] *));
+
+html { color-scheme: dark; }
+html[data-theme="light"] { color-scheme: light; }
+
+/* Softer elevation keeps the light glass surfaces clean. */
+@layer utilities {
+    html[data-theme="light"] :is(nav, aside > div, section, [class*="shadow-"]) {
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9), 0 6px 24px rgb(15 23 42 / 0.06);
+    }
+}
+
+/* Reveal the new theme above a still snapshot of the previous one. */
+html.theme-pulse::view-transition-old(root),
+html.theme-pulse::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+html.theme-pulse::view-transition-old(root) { z-index: 1; }
+html.theme-pulse::view-transition-new(root) { z-index: 2; }
+html.theme-pulse::view-transition-group(root) { animation: none; }

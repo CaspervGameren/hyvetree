@@ -37,7 +37,7 @@ class User extends Authenticatable
         return $this->hasMany(Project::class);
     }
 
-    public function users(): BelongsToMany
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
     }

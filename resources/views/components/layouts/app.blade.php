@@ -14,9 +14,10 @@
     rel="stylesheet"
     href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
 
+    <x-theme-init />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="flex flex-col min-h-screen bg-neutral-950 text-white p-4">
+<body class="flex flex-col min-h-screen bg-neutral-950 light:bg-slate-50 text-white light:text-neutral-900 p-4">
     @include('partials.navigation')
     
     <div class="flex flex-1 items-stretch gap-4">

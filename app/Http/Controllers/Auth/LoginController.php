@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -13,11 +13,24 @@ class LoginController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $rules = [
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string', 'confirmed', Password::min(8)],
-        ];
+        // Validate the input
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-        $validated = $request->validate($rules);
+        // Attempt to log in
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            // Regenerate session for security
+            $request->session()->regenerate();
+
+            // Redirect to intended page or home
+            return redirect()->intended('/')->with('success', 'Welcome back!');
+        }
+
+        // If login fails, redirect back with error
+        return back()
+            ->withErrors(['email' => 'The provided credentials do not match our records.'])
+            ->onlyInput('email');
     }
 }
