@@ -32,9 +32,19 @@ class User extends Authenticatable
         ];
     }
 
-    public function Projects(): HasMany
+    public function projects(): HasMany
     {
         return $this->hasMany(Project::class);
+    }
+
+    public function likedProjects(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class)->withTimestamps();
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->roles()->where('name', 'admin')->exists();
     }
 
     public function roles(): BelongsToMany
