@@ -24,7 +24,7 @@
         </div>
         <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
             <label class="inline-flex cursor-pointer items-center gap-2 text-neutral-400 light:text-neutral-600"><input type="checkbox" name="remember" value="1" class="h-4 w-4 rounded border-white/20 light:border-neutral-300/70 accent-[#4CFC93]">Remember me</label>
-            <a href="/forgot-password" class="rounded text-[#4CFC93] light:text-emerald-700 transition hover:text-[#4CFC93]/75 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4CFC93]">Forgot password?</a>
+            <span class="text-neutral-500 text-xs">Need access? Contact your administrator.</span>
         </div>
         <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#4CFC93] px-5 py-3 text-sm font-semibold text-neutral-950 transition hover:bg-[#79fdae] active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4CFC93]">Log in<span class="material-icons-outlined text-lg!" aria-hidden="true">arrow_forward</span></button>
     </form>

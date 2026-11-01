@@ -4,12 +4,11 @@
         <h1 class="text-3xl font-semibold tracking-tight">Room for your ideas.</h1>
         <p class="mt-3 text-sm leading-6 text-neutral-400 light:text-neutral-600">Create your account and give your next project a place to grow.</p>
     </div>
-    {-- Connect this POST URL to your authentication controller. --}
-    <form action="/register" method="POST" class="space-y-5">
+    <form action="{{ route('register.store') }}" method="POST" class="space-y-5">
         @csrf
         <div>
             <label for="name" class="text-sm font-medium text-white/90 light:text-neutral-700">Name</label>
-            <input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" class="mt-2 w-full rounded-xl border border-white/15 light:border-neutral-300/70 bg-neutral-950/50 light:bg-white/70 px-4 py-3 text-sm text-white light:text-neutral-900 outline-none transition placeholder:text-neutral-600 light:placeholder:text-neutral-500 hover:border-white/25 light:hover:border-neutral-300/70 focus:border-[#4CFC93]/60 light:focus:border-emerald-600/60 focus:ring-2 focus:ring-[#4CFC93]/10" required>
+            <input id="name" name="name" value="{{ old('name') }}" type="text" autocomplete="name" placeholder="Your name" class="mt-2 w-full rounded-xl border border-white/15 light:border-neutral-300/70 bg-neutral-950/50 light:bg-white/70 px-4 py-3 text-sm text-white light:text-neutral-900 outline-none transition placeholder:text-neutral-600 light:placeholder:text-neutral-500 hover:border-white/25 light:hover:border-neutral-300/70 focus:border-[#4CFC93]/60 light:focus:border-emerald-600/60 focus:ring-2 focus:ring-[#4CFC93]/10" required>
             
             @error('name')
                 <p class="mt-2 text-xs text-rose-300" role="alert">{{ $message }}</p>
@@ -17,7 +16,7 @@
         </div>
         <div>
             <label for="email" class="text-sm font-medium text-white/90 light:text-neutral-700">Email address</label>
-            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" class="mt-2 w-full rounded-xl border border-white/15 light:border-neutral-300/70 bg-neutral-950/50 light:bg-white/70 px-4 py-3 text-sm text-white light:text-neutral-900 outline-none transition placeholder:text-neutral-600 light:placeholder:text-neutral-500 hover:border-white/25 light:hover:border-neutral-300/70 focus:border-[#4CFC93]/60 light:focus:border-emerald-600/60 focus:ring-2 focus:ring-[#4CFC93]/10" required>
+            <input id="email" name="email" value="{{ old('email') }}" type="email" autocomplete="email" placeholder="you@example.com" class="mt-2 w-full rounded-xl border border-white/15 light:border-neutral-300/70 bg-neutral-950/50 light:bg-white/70 px-4 py-3 text-sm text-white light:text-neutral-900 outline-none transition placeholder:text-neutral-600 light:placeholder:text-neutral-500 hover:border-white/25 light:hover:border-neutral-300/70 focus:border-[#4CFC93]/60 light:focus:border-emerald-600/60 focus:ring-2 focus:ring-[#4CFC93]/10" required>
             
             @error('email')
                 <p class="mt-2 text-xs text-rose-300" role="alert">{{ $message }}</p>

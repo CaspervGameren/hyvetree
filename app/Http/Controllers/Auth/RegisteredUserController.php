@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
@@ -33,15 +34,17 @@ class RegisteredUserController extends Controller
 
         $validated = $request->validate($rules);
 
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-        ]);
+        $user = DB::transaction(function () use ($validated) {
+            $role = Role::where('name', 'user')->firstOrFail();
+            $user = User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => Hash::make($validated['password']),
+            ]);
+            $user->roles()->syncWithoutDetaching([$role->id]);
 
-        $role = Role::where('name', 'user')->firstOrFail();
-
-        $user->roles()->syncWithoutDetaching([$role->id]);
+            return $user;
+        });
 
         Auth::login($user);
 
