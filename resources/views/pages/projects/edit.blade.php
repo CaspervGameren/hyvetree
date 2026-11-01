@@ -1,3 +1,1 @@
-<x-layouts.app>
-    <x-header title="Edit Project {ProjectName}"></x-header>
-</x-layouts.app>
+<x-layouts.app title="Edit project"><div class="space-y-6"><header><a class="ui-muted text-sm hover:text-emerald-400" href="{{ route('projects.show', $project) }}">&larr; Back to project</a><h1 class="mt-4 text-4xl font-bold">Edit Project</h1><p class="ui-muted mt-3">Update the details. Your project URL stays the same.</p></header><form class="space-y-6" method="POST" action="{{ route('projects.update', $project) }}">@csrf @method('PATCH') @include('pages.projects.partials.form')</form></div></x-layouts.app>

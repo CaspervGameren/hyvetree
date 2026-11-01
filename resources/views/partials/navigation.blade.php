@@ -6,7 +6,7 @@
         <h2>Hyvetree</h2>
     </div>
 
-    <ul class="flex shrink-0 items-center gap-1 rounded-full border border-white/10 light:border-neutral-300/70 bg-neutral-950/30 light:bg-white/70 p-1
+    <ul class="flex flex-wrap items-center gap-1 rounded-full border border-white/10 light:border-neutral-300/70 bg-neutral-950/30 light:bg-white/70 p-1
                shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
         <li>
             <a href="{{ route('home') }}" @class([
@@ -34,23 +34,25 @@
                     'bg-[#4CFC93]/10 text-[#4CFC93] light:text-emerald-700 ring-1 ring-inset ring-[#4CFC93]/25' => request()->routeIs('profile.*'),
                     'text-neutral-400 light:text-neutral-600' => !request()->routeIs('profile.*'),
                 ])
-                    aria-current="{{ request()->routeIs('projects.*') ? 'page' : 'false' }}">Profile</a>
+                    aria-current="{{ request()->routeIs('profile.*') ? 'page' : 'false' }}">Profile</a>
             </li>
+            <li><a href="{{ route('projects.manage') }}" class="block rounded-full px-4 py-2 text-sm font-medium text-neutral-400 transition hover:bg-[#4CFC93]/10 hover:text-[#4CFC93] light:text-neutral-600 light:hover:text-emerald-700">Manage</a></li>
+            @if (auth()->user()->isAdmin())<li><a href="{{ route('admin.projects.index') }}" class="block rounded-full px-4 py-2 text-sm font-medium text-emerald-400 transition hover:bg-emerald-400/10 light:text-emerald-700">Admin</a></li>@endif
         @endauth
     </ul>
 
     <div class="ml-auto flex items-center gap-3">
         @auth
-            {{-- Search presentation only; connect to search when its backend is ready. --}}
-            <label
+            {{-- Submit free-text project search with Enter. --}}
+            <form role="search" method="GET" action="{{ route('projects.index') }}"
                 class="group flex h-11 items-center gap-2 rounded-full border border-white/10 light:border-neutral-300/70 bg-neutral-950/30 light:bg-white/70 px-3
                           transition duration-200 hover:border-[#4CFC93]/30 light:hover:border-emerald-600/30 focus-within:border-[#4CFC93]/50 light:focus-within:border-emerald-600/50 focus-within:ring-2 focus-within:ring-[#4CFC93]/10">
                 <span class="material-icons-outlined text-xl! text-neutral-500 light:text-neutral-600 transition group-focus-within:text-[#4CFC93] light:group-focus-within:text-emerald-700"
                     aria-hidden="true">search</span>
                 <span class="sr-only">Search Hyvetree</span>
-                <input type="search" name="search" placeholder="Search Hyvetree…"
+                <input type="search" name="q" aria-label="Search projects" maxlength="255" value="{{ request('q') }}" placeholder="Search Hyvetree…"
                     class="w-28 min-w-0 bg-transparent text-sm text-white light:text-neutral-900 outline-none placeholder:text-neutral-500 light:placeholder:text-neutral-600 sm:w-40 lg:w-52">
-            </label>
+            </form>
 
             <div class="group/profile relative">
                 <button type="button" aria-label="Account options"

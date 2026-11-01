@@ -26,6 +26,7 @@
         @endif
 
         <main class="min-w-0 flex-1">
+            <x-feedback />
             {{ $slot }}
         </main>
     </div>

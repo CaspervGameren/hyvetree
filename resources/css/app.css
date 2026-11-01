@@ -30,3 +30,23 @@ html.theme-pulse::view-transition-new(root) {
 html.theme-pulse::view-transition-old(root) { z-index: 1; }
 html.theme-pulse::view-transition-new(root) { z-index: 2; }
 html.theme-pulse::view-transition-group(root) { animation: none; }
+
+@layer components {
+    .ui-panel { @apply rounded-2xl border border-white/10 bg-linear-to-br from-white/6 to-white/2; }
+    .ui-muted { @apply text-neutral-400; }
+    .ui-label { @apply block text-sm font-medium; }
+    .ui-input { @apply mt-2 w-full rounded-xl border border-white/15 bg-neutral-950/60 px-4 py-3 text-sm text-white outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/15; }
+    .ui-button { @apply inline-flex w-fit items-center justify-center gap-2 rounded-xl bg-[#4CFC93] px-5 py-3 text-sm font-semibold text-neutral-950 transition hover:bg-[#79fdae] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-500; }
+    .ui-secondary { @apply inline-flex w-fit items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-medium text-neutral-300 transition hover:border-emerald-400/40 hover:text-emerald-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-500; }
+    .ui-badge { @apply inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-neutral-400; }
+    .ui-choice { @apply flex h-full flex-col items-center gap-2 rounded-xl border border-white/15 bg-neutral-950/40 p-4 text-neutral-400 transition hover:border-emerald-400/40; }
+    .peer:checked + .ui-choice { @apply border-emerald-400 bg-emerald-400/10 text-emerald-300; }
+    .peer:focus-visible + .ui-choice { @apply outline-2 outline-offset-4 outline-emerald-400; }
+    html[data-theme="light"] .ui-panel { @apply border-neutral-200 from-white to-slate-50; }
+    html[data-theme="light"] .ui-muted { @apply text-neutral-600; }
+    html[data-theme="light"] .ui-input { @apply border-neutral-300 bg-white text-neutral-900; }
+    html[data-theme="light"] .ui-secondary { @apply border-neutral-300 bg-white text-neutral-700 hover:text-emerald-700; }
+    html[data-theme="light"] .ui-badge { @apply border-neutral-200 bg-slate-50 text-neutral-600; }
+    html[data-theme="light"] .ui-choice { @apply border-neutral-300 bg-white text-neutral-600; }
+    html[data-theme="light"] .peer:checked + .ui-choice { @apply border-emerald-600 bg-emerald-50 text-emerald-800; }
+}
