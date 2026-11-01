@@ -41,7 +41,7 @@ Development, Testing, Acceptance and Production should have separate configurati
 
 This work has not deployed a production server. Before deployment:
 
-1. Use a supported PHP runtime and extensions matching composer.lock. Install locked production dependencies with `composer install --no-dev --optimize-autoloader`; build assets with `npm ci` and `npm run build` in the build environment.
+1. Use a supported PHP runtime and extensions matching composer.lock. Install locked production dependencies with `composer install --no-dev --optimize-autoloader`; build assets with `pnpm install --frozen-lockfile` and `pnpm run build` in the build environment.
 2. Serve only the `public` directory over HTTPS. Permit writes to storage and bootstrap/cache; keep source configuration and `.env` outside the document root.
 3. Configure the production `.env`: APP_ENV=production, APP_DEBUG=false, APP_URL, database and session settings. Keep secrets out of Git, use secure cookies over HTTPS and preserve APP_KEY between releases.
 4. Back up the production database before applying pending migrations with `php artisan migrate --force`. Seed the required roles deliberately; the local admin seeder refuses production. Provision production admin access through an appropriate controlled process.

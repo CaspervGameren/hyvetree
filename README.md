@@ -4,11 +4,11 @@ Laravel 13 project workspace with Blade, Tailwind, session authentication and us
 
 ## Local setup
 
-Use PHP 8.4+, Composer, Node 22.12+ and SQLite (PDO SQLite enabled). Install the locked dependencies:
+Use PHP 8.4+, Composer, Node 22.12+, pnpm 10 and SQLite (PDO SQLite enabled). Install the locked dependencies:
 
 ```sh
 composer install
-npm ci
+pnpm install --frozen-lockfile
 ```
 
 For a **new checkout**, copy `.env.example` to `.env`, create `database/database.sqlite`, configure the database connection and run:
@@ -17,11 +17,11 @@ For a **new checkout**, copy `.env.example` to `.env`, create `database/database
 php artisan key:generate
 php artisan migrate
 php artisan db:seed
-npm run build
+pnpm run build
 php artisan serve
 ```
 
-Use `npm run dev` while changing frontend assets. Existing installations should keep their `.env`, application key and database; run only pending migrations. Never use `migrate:fresh` against data you want to keep.
+Use `pnpm run dev` while changing frontend assets. Existing installations should keep their `.env`, application key and database; run only pending migrations. Never use `migrate:fresh` against data you want to keep.
 
 The local/testing database seeder creates `admin` and `user` roles and a local admin (`admin@hyvetree.test`). A generated password is displayed only on first creation. Running the seeder again preserves the existing password. No production admin account is automatically created. Registration requires the role seeder to have run.
 
@@ -42,7 +42,7 @@ The local/testing database seeder creates `admin` and `user` roles and a local a
 ```sh
 php artisan test
 vendor/bin/pint --test
-npm run build
+pnpm run build
 ```
 
 Feature tests use an isolated in-memory SQLite database. They cover ownership, admin permissions, privacy, search/filter combinations, publication eligibility, likes, validation, profiles, registration and logout.
