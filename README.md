@@ -1,58 +1,50 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Hyvetree
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Laravel 13 project workspace with Blade, Tailwind, session authentication and user/admin roles.
 
-## About Laravel
+## Local setup
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Use PHP 8.4+, Composer, Node 22.12+ and SQLite (PDO SQLite enabled). Install the locked dependencies:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```sh
+composer install
+npm ci
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+For a **new checkout**, copy `.env.example` to `.env`, create `database/database.sqlite`, configure the database connection and run:
 
-## Contributing
+```sh
+php artisan key:generate
+php artisan migrate
+php artisan db:seed
+npm run build
+php artisan serve
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Use `npm run dev` while changing frontend assets. Existing installations should keep their `.env`, application key and database; run only pending migrations. Never use `migrate:fresh` against data you want to keep.
 
-## Code of Conduct
+The local/testing database seeder creates `admin` and `user` roles and a local admin (`admin@hyvetree.test`). A generated password is displayed only on first creation. Running the seeder again preserves the existing password. No production admin account is automatically created. Registration requires the role seeder to have run.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Behaviour
 
-## Security Vulnerabilities
+- Signed-in users discover public projects and their own private projects on `/projects`.
+- Search matches title or summary and combines with the status dropdown.
+- Only a project's owner can edit its content, including through direct URLs.
+- `/projects/manage` lists your projects and a separate list of liked public projects.
+- `/admin/projects` is an admin-only table of every project. Admins can inspect, change visibility and delete other projects, but content editing stays with the owner.
+- Visibility changes and likes use POST actions with CSRF protection. Deletion asks for confirmation in the view.
+- Publishing requires at least three existing projects for the owner. This is checked using an Eloquent count query on the server for creation, editing and the list toggle. Start by saving three private projects. Admin visibility changes follow the same owner's eligibility rule.
+- Profile show/edit/update always uses the authenticated user; IDs and roles submitted in a form cannot select another account.
+- Slugs are generated once from the title with a unique suffix and remain stable when the title changes. Resource URLs currently use project IDs.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Checks
 
-## License
+```sh
+php artisan test
+vendor/bin/pint --test
+npm run build
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Feature tests use an isolated in-memory SQLite database. They cover ownership, admin permissions, privacy, search/filter combinations, publication eligibility, likes, validation, profiles, registration and logout.
+
+See [assessment notes](docs/assessment.md) for an explanation and deployment preparation. Password recovery and email verification are not implemented flows. The theme animation uses JavaScript, while access controls and validation run on the server.
