@@ -33,7 +33,7 @@ The local/testing database seeder creates `admin` and `user` roles and a local a
 - `/projects/manage` lists your projects and a separate list of liked public projects.
 - `/admin/projects` is an admin-only table of every project. Admins can inspect, change visibility and delete other projects, but content editing stays with the owner.
 - Visibility changes and likes use POST actions with CSRF protection. Deletion asks for confirmation in the view.
-- Publishing requires at least three existing projects for the owner. This is checked using an Eloquent count query on the server for creation, editing and the list toggle. Start by saving three private projects. Admin visibility changes follow the same owner's eligibility rule.
+- Publishing requires at least three existing projects for the owner. This is checked using an Eloquent count query on the server for creation, editing and the list toggle. Start by saving three private projects. Admins are exempt from the three-project rule, including when moderating another owner’s project.
 - Profile show/edit/update always uses the authenticated user; IDs and roles submitted in a form cannot select another account.
 - Slugs are generated once from the title with a unique suffix and remain stable when the title changes. Resource URLs currently use project IDs.
 

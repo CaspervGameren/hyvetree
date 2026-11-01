@@ -47,7 +47,7 @@ class ProjectController extends Controller
         $validated = $this->validateProject($request);
         $project = DB::transaction(function () use ($request, $validated) {
             $owner = User::query()->lockForUpdate()->findOrFail($request->user()->id);
-            $this->checkPublication($owner, (bool) $validated['is_public']);
+            $this->checkPublication($owner, (bool) $validated['is_public'], $request->user());
 
             return $owner->projects()->create($validated);
         });
@@ -75,10 +75,10 @@ class ProjectController extends Controller
     {
         Gate::authorize('update', $project);
         $validated = $this->validateProject($request);
-        DB::transaction(function () use ($project, $validated) {
+        DB::transaction(function () use ($project, $validated, $request) {
             $owner = User::query()->lockForUpdate()->findOrFail($project->user_id);
             if (! $project->is_public) {
-                $this->checkPublication($owner, (bool) $validated['is_public']);
+                $this->checkPublication($owner, (bool) $validated['is_public'], $request->user());
             }
             $project->update($validated);
         });
@@ -94,13 +94,13 @@ class ProjectController extends Controller
         return redirect()->route($request->user()->isAdmin() ? 'admin.projects.index' : 'projects.manage')->with('success', 'Project deleted.');
     }
 
-    public function toggleVisibility(Project $project)
+    public function toggleVisibility(Request $request, Project $project)
     {
         Gate::authorize('changeVisibility', $project);
-        DB::transaction(function () use ($project) {
+        DB::transaction(function () use ($project, $request) {
             $owner = User::query()->lockForUpdate()->findOrFail($project->user_id);
             $project->refresh();
-            $this->checkPublication($owner, ! $project->is_public);
+            $this->checkPublication($owner, ! $project->is_public, $request->user());
             $project->update(['is_public' => ! $project->is_public]);
         });
 
@@ -158,8 +158,12 @@ class ProjectController extends Controller
         return $request->validate($rules);
     }
 
-    private function checkPublication(User $owner, bool $publishing): void
+    private function checkPublication(User $owner, bool $publishing, User $actor): void
     {
+        if ($actor->isAdmin()) {
+            return;
+        }
+
         // Count the actual related records: no stored counter or frontend-only restriction.
         if ($publishing && $owner->projects()->count() < 3) {
             throw ValidationException::withMessages([

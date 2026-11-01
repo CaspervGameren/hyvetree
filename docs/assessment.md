@@ -20,7 +20,7 @@ Practise these steps and explain the code in your own words. These changes were 
 | Own profile | ProfileController and pages/profile views |
 | Multiple-column search + dropdown | ProjectController filters/filtered methods and projects/partials/filters |
 | POST list toggle | projects.visibility route and toggleVisibility action |
-| Deeper validation | checkPublication uses owner->projects()->count(), with no persisted counter |
+| Deeper validation | checkPublication uses owner->projects()->count(), with no persisted counter; admins are exempt |
 | Many-to-many likes | Project/User relationships and project_user migration |
 | Server validation | validateProject, profile update and registration validation |
 | Feedback | components/feedback and old form values |

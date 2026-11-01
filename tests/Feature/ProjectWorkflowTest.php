@@ -143,8 +143,6 @@ class ProjectWorkflowTest extends TestCase
     {
         $owner = User::factory()->create();
         $project = $this->project($owner, ['title' => 'Private administration']);
-        $this->project($owner);
-        $this->project($owner);
         $this->actingAs($this->admin())->get('/admin/projects')->assertOk()->assertSee('Private administration');
         $this->get(route('projects.show', $project))->assertOk();
         $this->get(route('projects.edit', $project))->assertForbidden();
@@ -188,5 +186,29 @@ class ProjectWorkflowTest extends TestCase
             ->assertDontSee('<script>alert(1)</script>', false);
         $this->get('/projects?'.http_build_query(['q' => "' OR 1=1 --"]))
             ->assertOk()->assertDontSee('Hidden private item');
+    }
+
+    public function test_admin_can_publish_own_projects_without_three_existing_projects(): void
+    {
+        $admin = $this->admin();
+        $this->actingAs($admin)->post('/projects', $this->payload(['is_public' => '1']))
+            ->assertSessionHasNoErrors();
+        $project = $admin->projects()->firstOrFail();
+        $this->assertTrue($project->is_public);
+        $this->post(route('projects.visibility', $project))->assertSessionHasNoErrors();
+        $this->assertFalse($project->fresh()->is_public);
+        $this->patch(route('projects.update', $project), $this->payload(['is_public' => '1']))
+            ->assertSessionHasNoErrors();
+        $this->assertTrue($project->fresh()->is_public);
+    }
+
+    public function test_regular_owner_of_admin_published_project_still_needs_three_projects_to_republish(): void
+    {
+        $owner = User::factory()->create();
+        $project = $this->project($owner);
+        $this->actingAs($this->admin())->post(route('projects.visibility', $project))->assertSessionHasNoErrors();
+        $this->actingAs($owner)->post(route('projects.visibility', $project))->assertSessionHasNoErrors();
+        $this->post(route('projects.visibility', $project))->assertSessionHasErrors('is_public');
+        $this->assertFalse($project->fresh()->is_public);
     }
 }
