@@ -167,4 +167,26 @@ class ProjectWorkflowTest extends TestCase
         $project = $this->project($user);
         $this->actingAs($user)->get(route('projects.visibility', $project))->assertStatus(405);
     }
+
+    public function test_public_access_does_not_allow_changing_another_users_project(): void
+    {
+        $project = $this->project(User::factory()->create(), ['is_public' => true]);
+        $this->actingAs(User::factory()->create());
+        $this->get(route('projects.show', $project))->assertOk();
+        $this->patch(route('projects.update', $project), $this->payload())->assertForbidden();
+        $this->delete(route('projects.destroy', $project))->assertForbidden();
+        $this->post(route('projects.visibility', $project))->assertForbidden();
+    }
+
+    public function test_user_content_is_escaped_and_search_input_cannot_expose_private_projects(): void
+    {
+        $owner = User::factory()->create();
+        $project = $this->project($owner, ['title' => '<script>alert(1)</script>', 'is_public' => true]);
+        $this->project($owner, ['title' => 'Hidden private item']);
+        $this->actingAs(User::factory()->create())->get(route('projects.show', $project))
+            ->assertOk()->assertSee('&lt;script&gt;alert(1)&lt;/script&gt;', false)
+            ->assertDontSee('<script>alert(1)</script>', false);
+        $this->get('/projects?'.http_build_query(['q' => "' OR 1=1 --"]))
+            ->assertOk()->assertDontSee('Hidden private item');
+    }
 }

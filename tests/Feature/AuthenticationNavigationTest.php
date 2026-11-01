@@ -41,4 +41,11 @@ class AuthenticationNavigationTest extends TestCase
             ->assertRedirect('/login')->assertSessionHasErrors('email');
         $this->assertGuest();
     }
+
+    public function test_login_rejects_a_non_string_password(): void
+    {
+        $this->post('/login', ['email' => 'member@example.com', 'password' => ['invalid']])
+            ->assertSessionHasErrors('password');
+        $this->assertGuest();
+    }
 }

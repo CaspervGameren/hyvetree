@@ -47,4 +47,12 @@ npm run build
 
 Feature tests use an isolated in-memory SQLite database. They cover ownership, admin permissions, privacy, search/filter combinations, publication eligibility, likes, validation, profiles, registration and logout.
 
-See [assessment notes](docs/assessment.md) for an explanation and deployment preparation. Password recovery and email verification are not implemented flows. The theme animation uses JavaScript, while access controls and validation run on the server.
+See [assessment notes](docs/assessment.md) for an explanation and deployment preparation. Chat and translations are visibly disabled placeholders. Password recovery and email verification are not implemented flows. The theme animation uses JavaScript, while access controls and validation run on the server.
+
+## Submission
+
+Upload the source ZIP to the Brightspace assignment and click **Indienen** to finish. The assignment deadline is 1 November 2026, 23:59 Europe/Amsterdam. A production deployment is an alternative way to demonstrate the OTAP criterion; it is not a prerequisite for the ZIP submission.
+
+The ZIP includes source, locked dependencies metadata, migrations, seeders, tests, documentation and compiled frontend assets. It excludes `.env`, the local database, credentials, logs, `.git`, `vendor` and `node_modules`. Install Composer dependencies and follow the setup instructions above. Included frontend assets allow the app to display without starting Vite; rebuild them after frontend changes.
+
+Repository: https://github.com/CaspervGameren/hyvetree — current work is on the `development` branch. Git history remains available in the repository, not inside the source ZIP. Test-admin accounts in a local database are not included in the ZIP; run the local seeder to obtain a new generated admin password.

@@ -34,8 +34,8 @@ class AdminUserSeeder extends Seeder
         $user->roles()->syncWithoutDetaching([$role->id]);
 
         if ($user->wasRecentlyCreated) {
-            $this->command?->info('Admin email: ' . $user->email);
-            $this->command?->info('Admin password: ' . $password);
+            $this->command?->info('Admin email: '.$user->email);
+            $this->command?->info('Admin password: '.$password);
         } else {
             $this->command?->info('Admin role linked. The existing password was not changed.');
         }

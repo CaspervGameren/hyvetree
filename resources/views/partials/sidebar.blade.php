@@ -5,7 +5,7 @@
                 shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_8px_24px_rgba(0,0,0,0.25)]"
          role="group" aria-label="Appearance and language">
         <x-icon-button icon="light_mode" label="Switch to light mode" data-theme-toggle aria-pressed="false" />
-        <x-icon-button icon="translate" label="Change language" />
+        <x-icon-button icon="translate" label="Translations — coming soon" :disabled="true" />
     </div>
 
     {{-- Quick actions --}}
@@ -14,7 +14,7 @@
                 shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_8px_24px_rgba(0,0,0,0.25)]"
          role="group" aria-label="Quick actions">
         <x-icon-button icon="create_new_folder" label="Create project" :href="route('projects.create')" :aria-current="request()->routeIs('projects.create') ? 'page' : null" />
-        <x-icon-button icon="chat" label="Open chat" />
+        <x-icon-button icon="chat" label="Chat — coming soon" :disabled="true" />
     </div>
 
     {{-- UserProjects: add a separate glass group here when project shortcuts are available. --}}

@@ -2,6 +2,7 @@
     'icon',
     'label',
     'href' => null,
+    'disabled' => false,
 ])
 
 @php
@@ -9,17 +10,22 @@
         rounded-2xl border border-white/15 light:border-neutral-300/70
         bg-gradient-to-b from-white/15 light:from-white/90 to-white/5 light:to-white/40
         text-white/80 light:text-neutral-700 shadow-lg backdrop-blur-xl
-        transition duration-200
-        hover:border-[#4CFC93]/60 light:hover:border-emerald-600/60 hover:bg-[#4CFC93]/15 hover:text-[#4CFC93] light:hover:text-emerald-700
+        transition duration-200';
+
+    $interactionClasses = 'hover:border-[#4CFC93]/60 light:hover:border-emerald-600/60 hover:bg-[#4CFC93]/15 hover:text-[#4CFC93] light:hover:text-emerald-700
         active:border-[#4CFC93] active:bg-[#4CFC93]/20 active:text-[#4CFC93] light:active:text-emerald-700
         aria-[current=page]:border-[#4CFC93]/60 light:aria-[current=page]:border-emerald-600/60 aria-[current=page]:bg-[#4CFC93]/15 aria-[current=page]:text-[#4CFC93] light:aria-[current=page]:text-emerald-700
         active:scale-95
         focus-visible:outline-2 focus-visible:outline-offset-4
         focus-visible:outline-[#4CFC93]';
+
+    $classes .= $disabled
+        ? ' cursor-not-allowed opacity-45 grayscale'
+        : ' '.$interactionClasses;
 @endphp
 
 <span class="group relative inline-flex">
-@if ($href)
+@if ($href && ! $disabled)
     <a href="{{ $href }}"
        aria-label="{{ $label }}"
        {{ $attributes->class([$classes]) }}>
@@ -27,6 +33,7 @@
     </a>
 @else
     <button type="button"
+            @disabled($disabled)
             aria-label="{{ $label }}"
             {{ $attributes->class([$classes]) }}>
         <span class="material-icons-outlined" aria-hidden="true">{{ $icon }}</span>
