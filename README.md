@@ -182,3 +182,5 @@ Chat and translations are disabled placeholders. Password recovery and email ver
 The submission ZIP contains source, dependency lockfiles, migrations, seeders, tests, documentation and compiled frontend assets. It excludes `.env`, local databases, account passwords, logs, `.git`, `vendor` and `node_modules`. Local test accounts are not bundled: the setup steps generate a separate admin account for the reviewer.
 
 The current source and Git history are on the [development branch](https://github.com/CaspervGameren/hyvetree/tree/development). See [the assessment notes](docs/assessment.md) for a demonstration outline, implementation choices and OTAP/deployment preparation. This local setup does not deploy the application to a public server.
+
+For the shared-hosting release procedure and MySQL configuration, see [InfinityFree deployment](docs/infinityfree.md).

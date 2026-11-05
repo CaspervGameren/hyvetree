@@ -1,0 +1,11 @@
+Options -Indexes
+RewriteEngine On
+
+# Deny private application files, including requests that name their directories.
+RewriteRule ^(?:app|bootstrap|config|database|resources|routes|storage|vendor|tests|docs)(?:/|$) - [F,L,NC]
+RewriteRule (^|/)\.(?!well-known(?:/|$)) - [F,L]
+RewriteRule ^(?:artisan|composer\.(?:json|lock)|package\.json|pnpm-lock\.yaml|README\.md|phpunit\.xml|vite\.config\.js|AGENTS\.md|CLAUDE\.md)$ - [F,L,NC]
+
+# Only public assets and Laravel's front controller may be served.
+RewriteCond %{REQUEST_URI} !^/public(?:/|$)
+RewriteRule ^(.*)$ public/$1 [L]
